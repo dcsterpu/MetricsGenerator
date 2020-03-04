@@ -55,6 +55,19 @@ def check_if_xml_is_wellformed(file):
     parser.setContentHandler(ContentHandler())
     parser.parse(file)
 
+def remove_duplicates(list1,list2,str1,str2):
+    for elem1 in list1:
+        ok = 0
+        for elem2 in list2:
+            if elem1[str1] == elem2[str2]:
+                ok = 1
+                break
+        if ok ==0:
+            obj = {}
+            obj[str2] = elem1[str1]
+            list2.append(obj)
+    return list2
+
 
 def main():
     parser = argparse.ArgumentParser()
@@ -578,16 +591,20 @@ def calculate_ram_rom(mapfile_path,rr_regions,logger):
     obj['OUTPUT-SECTION'] = symbol_list[0]['OUTPUT-SECTION']
     output_sections.append(obj)
 
-    for symbol in symbol_list:
-        ok = 0
-        for section in output_sections:
-            obj = {}
-            if symbol['OUTPUT-SECTION'] == section['OUTPUT-SECTION']:
-                ok = 1
-                break
-        if ok == 0:
-            obj['OUTPUT-SECTION'] = symbol['OUTPUT-SECTION']
-            output_sections.append(obj)
+    # for symbol in symbol_list:
+    #     ok = 0
+    #     for section in output_sections:
+    #         obj = {}
+    #         if symbol['OUTPUT-SECTION'] == section['OUTPUT-SECTION']:
+    #             ok = 1
+    #             break
+    #     if ok == 0:
+    #         obj['OUTPUT-SECTION'] = symbol['OUTPUT-SECTION']
+    #         output_sections.append(obj)
+
+    str1 = 'OUTPUT-SECTION'
+    str2 = 'OUTPUT-SECTION'
+    output_sections = remove_duplicates(symbol_list,output_sections,str1,str2)
 
     for section in output_sections:
         used_memory = 0
@@ -617,16 +634,19 @@ def calculate_ram_rom(mapfile_path,rr_regions,logger):
     obj = {}
     obj['SCOPE'] = symbol_list[0]['SCOPE']
     scopes.append(obj)
-    for symbol in symbol_list:
-        ok = 0
-        for scope in scopes:
-            obj = {}
-            if symbol['SCOPE'] == scope['SCOPE']:
-                ok = 1
-                break
-        if ok == 0:
-            obj['SCOPE'] = symbol['SCOPE']
-            scopes.append(obj)
+    # for symbol in symbol_list:
+    #     ok = 0
+    #     for scope in scopes:
+    #         obj = {}
+    #         if symbol['SCOPE'] == scope['SCOPE']:
+    #             ok = 1
+    #             break
+    #     if ok == 0:
+    #         obj['SCOPE'] = symbol['SCOPE']
+    #         scopes.append(obj)
+    str1 = 'SCOPE'
+    str2 = 'SCOPE'
+    scopes = remove_duplicates(symbol_list,scopes,str1,str2)
 
     for scope in scopes:
         cnt = 0
@@ -1332,15 +1352,18 @@ def create_excel(scopes,symbol_list,memory_regions,output_sections,ram_memory,ro
     obj = {}
     obj['PROFILE'] = eeprom_blocks[0]['REF']
     profile_blocks.append(obj)
-    for block in eeprom_blocks:
-        ok = 0
-        for profile in profile_blocks:
-            if profile['PROFILE'] == block['REF']:
-                ok = 1
-        if ok == 0:
-            obj = {}
-            obj['PROFILE'] = block['REF']
-            profile_blocks.append(obj)
+    # for block in eeprom_blocks:
+    #     ok = 0
+    #     for profile in profile_blocks:
+    #         if profile['PROFILE'] == block['REF']:
+    #             ok = 1
+    #     if ok == 0:
+    #         obj = {}
+    #         obj['PROFILE'] = block['REF']
+    #         profile_blocks.append(obj)
+    str1 = 'REF'
+    str2 = 'PROFILE'
+    profile_blocks = remove_duplicates(eeprom_blocks,profile_blocks,str1,str2)
 
     for profile in profile_blocks:
         cnt = 0

@@ -44,7 +44,7 @@ jinja_string = """
             <p>
                 {% for section in output_sections %}
                     {% set ptg = (section['ROM-MEMORY']  / rom_used_memory) * 100 %}
-                    <li>SECTION: {{ section['OUTPUT-SECTION'] }} ROM-USED: {{ section['ROM-MEMORY'] }}  PERCENTAGE-USED: {{'%0.2f' % ptg|float}}% </li>
+                    <li>SECTION: {{ section['OUTPUT-SECTION'] }} ROM-USED: {{ section['ROM-MEMORY'] }} PERCENTAGE-USED: {{'%0.2f' % ptg|float}}% </li>
                 {% endfor %}
             </p>
         </div>
